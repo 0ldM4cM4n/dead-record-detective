@@ -1,0 +1,159 @@
+<?php use Fisharebest\Webtrees\I18N; ?>
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title><?= I18N::translate('Dead Record Detective') ?></title>
+    <style>
+        body {
+            margin: 0.75in;
+            color: #000;
+        }
+        .drd-content {
+            font-family: Monaco, monospace;
+            font-size: 13pt;
+        }
+        .drd-content h1 {
+            font-size: 18pt;
+            margin-bottom: 4px;
+        }
+        .drd-content p.subtitle-tree {
+            font-size: 14pt;
+            color: #8B0000;
+            margin-bottom: 8px;
+        }
+        .drd-content p.subtitle-generated {
+            font-size: 14pt;
+            color: #8B0000;
+            margin-bottom: 8px;
+        }
+        .drd-content p.enabled-options {
+            font-size: 14pt;
+            color: #8B0000;
+            margin-bottom: 8px;
+        }
+        .drd-content ul.enabled-options-list {
+            font-size: 14pt;
+            color: #0000FF;
+            padding-left: 24px;
+            margin-top: 4px;
+            margin-bottom: 8px;
+        }
+        .drd-content p.total-problems {
+            font-size: 14pt;
+            color: #8B0000;
+            margin-bottom: 16px;
+        }
+        .drd-content total-problems-count {
+            font-size: 14pt;
+            color: #0000FF;
+            margin-bottom: 16px;
+        }
+        .drd-content p.subtitle {
+            font-size: 12pt;
+            color: #555;
+            margin-bottom: 16px;
+        }
+        .drd-content p.disclaimer {
+            font-size: 13pt;
+            border: 2px solid #000;
+            padding: 8px;
+            margin-bottom: 16px;
+        }
+        .drd-content p.instructions {
+            font-size: 13pt;
+            padding: 8px;
+            margin-bottom: 16px;
+        }
+        .drd-content table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 14pt;
+            margin-bottom: 24px;
+        }
+        .drd-content thead th {
+            border-bottom: 2px solid #000;
+            text-align: left;
+            font-weight: normal;
+            padding: 4px 8px;
+            color: #0000ff;
+        }
+        .drd-content tbody tr:nth-child(even) {
+            background-color: #f5f5f5;
+        }
+        .drd-content tbody td {
+            padding: 3px 8px;
+            border-bottom: 1px solid #ddd;
+            color: #000;
+        }
+        .drd-content td.error-value {
+            color: purple;
+        }
+        .drd-content td.info-value {
+            color: #0000ff;
+        }
+        .drd-content a {
+            color: #000;
+        }
+        @media print {
+            body {
+                margin: 0.5in;
+            }
+            .drd-content tbody tr:nth-child(even) {
+                background-color: #f5f5f5 !important;
+                -webkit-print-color-adjust: exact;
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="drd-content">
+    <h1><?= I18N::translate('Dead Record Detective') ?>&nbsp;&nbsp;<img src="https://www.billkochman.com/FamilyTree/public/Images/detective.png" width="48" height="48" alt="DRD Detective Icon"></h1>
+    <p class="subtitle-tree">
+        <?= I18N::translate('Tree') ?>: <font color="blue"><?= e($tree->title()) ?></font>
+    </p>
+    <p class="subtitle-generated">
+        <?= I18N::translate('Generated') ?>: <font color="blue"><?= date('Y-m-d') ?></font>
+    </p>
+    <p class="enabled-options"><?= I18N::translate('Options Enabled For This Report') ?>:</p>
+    <ul class="enabled-options-list">
+        <?php foreach ($enabled_options as $option) : ?>
+            <li><?= e($option) ?></li>
+        <?php endforeach ?>
+    </ul>
+    <p class="total-problems">
+        <?= I18N::translate('Total Problems Found') ?>: <font color="blue"><?= count($problems) ?></font>
+    </p>
+    <p class="disclaimer">
+        ⚠️ <font color="#8B0000"><?= I18N::translate('IMPORTANT DISCLAIMER') ?>:</font>
+        <?= I18N::translate('This module is a detection & reporting tool ONLY. It doesn\'t modify, delete, or alter any data in your family tree. All changes must be made manually by the admin. B&C Mods accepts no responsibility for any actions taken by the admin, or consequences resulting from the same, based on the results of this report. Use at your discretion.') ?>
+    </p>
+    <p class="instructions">
+        <?= I18N::translate('• &#128073; To go to a profile page, tap or click on the ID number in the last column.<br>• &#128073; Anything in <font color="purple">[purple brackets]</font> signifies either missing or incomplete data.<br>• &#128073; Anything in <font color="blue">[blue brackets]</font> is informative and does not signify a problem.<br>• &#128073; This report displays differently depending upon the Webtrees theme in use.<br>• &#128073; A blank page doesn\'t always mean something\'s wrong. See the problem count.') ?>
+    </p>
+
+    <table>
+        <thead>
+            <tr>
+                <th><?= I18N::translate('Last Name') ?></th>
+                <th><?= I18N::translate('First Name') ?></th>
+                <th><?= I18N::translate('Birth Date') ?></th>
+                <th><?= I18N::translate('Death Date') ?></th>
+                <th><?= I18N::translate('Profile') ?></th>
+            </tr>
+        </thead>
+        <tbody>
+            <?php foreach ($problems as $problem) : ?>
+                <tr>
+                    <td class="<?= strpos($problem['last_name'], '[') === 0 ? 'error-value' : '' ?>"><?= e($problem['last_name']) ?></td>
+                    <td class="<?= strpos($problem['first_name'], '[') === 0 ? 'error-value' : '' ?>"><?= e($problem['first_name']) ?></td>
+                    <td class="<?= strpos($problem['birth_date'], '[') === 0 ? 'error-value' : '' ?>"><?= e($problem['birth_date']) ?></td>
+                    <td class="<?= $problem['death_date'] === '[Still Living]' ? 'info-value' : (strpos($problem['death_date'], '[') === 0 ? 'error-value' : '') ?>"><?= e($problem['death_date']) ?></td>
+                    <td><a href="<?= e($problem['url']) ?>" target="_blank"><?= e($problem['id']) ?></a></td>
+                </tr>
+            <?php endforeach ?>
+        </tbody>
+    </table>
+</div>
+</body>
+</html>

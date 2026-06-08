@@ -1,0 +1,23 @@
+{
+    "name": "billkochman/dead-record-detective",
+    "description": "Scans a Webtrees family tree and detects individuals with missing, unknown, or placeholder data in key fields. We find them. YOU kill them. We detect them. YOU reject them!",
+    "keywords": [
+        "webtrees",
+        "genealogy",
+        "detective",
+        "missing data",
+        "placeholder",
+        "admin"
+    ],
+    "type": "webtrees-module",
+    "license": "GPL-3.0-or-later",
+    "authors": [
+        {
+            "name": "Bill Kochman",
+            "homepage": "https://github.com/0ldM4cM4n"
+        }
+    ],
+    "require": {
+        "php": ">=8.0"
+    }
+}

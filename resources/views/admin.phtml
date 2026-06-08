@@ -1,0 +1,112 @@
+<?php use Fisharebest\Webtrees\I18N; ?>
+
+<div class="card mb-4">
+    <div class="card-header">
+        <h2><?= I18N::translate('Dead Record Detective') ?></h2>
+        <p class="text-muted">
+            <?= I18N::translate('Scans a family tree and detects individuals with missing, unknown, or placeholder data in key fields.') ?>
+        </p>
+    </div>
+
+    <div class="card-body">
+
+        <div class="alert alert-warning mb-4">
+            <strong>⚠️ <?= I18N::translate('IMPORTANT DISCLAIMER') ?>:</strong>
+            <?= I18N::translate('This module is a detection and reporting tool ONLY. It does not modify, delete, or alter any data in your family tree. All changes must be made manually by the administrator. B&C Mods accepts no responsibility for any actions taken by the admin -- or consequences resulting from the same -- based on the results of this report. Use this tool at your own discretion.') ?>
+        </div>
+
+        <form method="post" action="<?= e(route('module', ['module' => $module_name, 'action' => 'Admin'])) ?>">
+            <?= csrf_field() ?>
+
+            <!-- Tree Selection -->
+            <div class="form-group row mb-3">
+                <label class="col-sm-3 col-form-label" for="tree_id">
+                    <?= I18N::translate('Select Tree') ?>
+                </label>
+                <div class="col-sm-9">
+                    <select class="form-control" id="tree_id" name="tree_id">
+                        <?php foreach ($tree_list as $id => $name) : ?>
+                            <option value="<?= e($id) ?>"><?= e($name) ?></option>
+                        <?php endforeach ?>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Scan For -->
+            <div class="form-group row mb-3">
+                <label class="col-sm-3 col-form-label">
+                    <?= I18N::translate('Scan for') ?>
+                </label>
+                <div class="col-sm-9">
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" name="scan_for[]" id="scan_unknown_last_name" value="unknown_last_name" checked>
+                        <label class="form-check-label" for="scan_unknown_last_name">
+                            <?= I18N::translate('Unknown or empty last name (@N.N.)') ?>
+                        </label>
+                        <div class="text-muted small mt-1">
+                            <?= I18N::translate('(@N.N. is a standard genealogy code meaning the surname is unknown or was left blank)') ?>
+                        </div>
+                    </div>
+                    <div class="form-check mt-2">
+                        <input class="form-check-input" type="checkbox" name="scan_for[]" id="scan_unknown_first_name" value="unknown_first_name" checked>
+                        <label class="form-check-label" for="scan_unknown_first_name">
+                            <?= I18N::translate('Unknown or empty first name (? or @P.N.)') ?>
+                        </label>
+                        <div class="text-muted small mt-1">
+                            <?= I18N::translate('(? or @P.N. are standard genealogy codes meaning the given name is unknown or was left blank)') ?>
+                        </div>
+                    </div>
+                    <div class="form-check mt-2">
+                        <input class="form-check-input" type="checkbox" name="scan_for[]" id="scan_empty_birth_date" value="empty_birth_date" checked>
+                        <label class="form-check-label" for="scan_empty_birth_date">
+                            <?= I18N::translate('Empty birth date field') ?>
+                        </label>
+                    </div>
+                    <div class="form-check mt-2">
+                        <input class="form-check-input" type="checkbox" name="scan_for[]" id="scan_empty_death_date" value="empty_death_date" checked>
+                        <label class="form-check-label" for="scan_empty_death_date">
+                            <?= I18N::translate('Empty death date field') ?>
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Export Format -->
+            <div class="form-group row mb-3">
+                <label class="col-sm-3 col-form-label">
+                    <?= I18N::translate('Export Format') ?>
+                </label>
+                <div class="col-sm-9">
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="export_type" id="export_tsv" value="tsv" checked>
+                        <label class="form-check-label" for="export_tsv">
+                            <?= I18N::translate('TSV (Tab Separated Values)') ?>
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="export_type" id="export_csv" value="csv">
+                        <label class="form-check-label" for="export_csv">
+                            <?= I18N::translate('CSV (Excel / Numbers)') ?>
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="export_type" id="export_print" value="print">
+                        <label class="form-check-label" for="export_print">
+                            <?= I18N::translate('Print View') ?>
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Submit Button -->
+            <div class="form-group row">
+                <div class="col-sm-9 offset-sm-3">
+                    <button type="submit" class="btn btn-primary">
+                        <?= I18N::translate('Generate Report') ?>
+                    </button>
+                </div>
+            </div>
+
+        </form>
+    </div>
+</div>
