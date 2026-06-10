@@ -1,6 +1,7 @@
 ![B&C Mods](https://raw.githubusercontent.com/0ldM4cM4n/dead-record-detective/main/assets/images/B-C-Mods-Logo-02-optimized.png)
 
 # dead-record-detective
+**Version 1.0.0**
 
 "We find them. YOU kill them. We detect them. YOU reject them!"
 
