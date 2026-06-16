@@ -25,12 +25,6 @@ Dead Record Detective is found on the main **Control Panel** page, under the **M
 ### webtrees 2.2
 This module is developed and tested with webtrees 2.2.6 running under PHP 8.4.
 
-### webtrees 2.1
-This module should work with webtrees 2.1.x but has not been explicitly tested.
-
-### webtrees 2.0 and lower
-This module **will not work** with webtrees versions lower than 2.1.
-
 ## Installation Instructions
 1. Download the zip archive of this repository from GitHub.
 2. Unzip the archive.
